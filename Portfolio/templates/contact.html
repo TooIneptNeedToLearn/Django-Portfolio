@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="text-center mb-4">Contact Me</h1>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <p class="d-flex align-items-center">
+                        <img src="../static/img/logo/gmail.png" alt="Gmail Icon" width="24" height="24" class="me-2">
+                        <span class="fw-bold me-2">Gmail:</span>
+                        202180205@psu.palawan.edu.ph
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <p class="d-flex align-items-center">
+                        <img src="../static/img/logo/facebook.png" alt="Facebook Icon" width="24" height="24" class="me-2">
+                        <span class="fw-bold me-2">Facebook:</span>
+                        Ric Ryan Nolasco
+                    </p>
+                </div>
+            </div>
+            <h3 class="text-center">OR</h3>
+            <p></p>
+            <h5 class="mb-3 text-center">You can directly contact me here:</h5>
+            <form id="contactForm" action="{% url 'contact_submit' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Your Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Subject</label>
+                    <input type="text" class="form-control" id="subject" name="subject" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Submit form via AJAX
+    document.getElementById("contactForm").addEventListener("submit", function(event) {
+        event.preventDefault(); 
+        var formData = new FormData(this); 
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.'); 
+        });
+    });
+</script>
+{% endblock content %}
